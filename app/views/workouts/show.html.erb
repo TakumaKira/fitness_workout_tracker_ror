@@ -1,80 +1,90 @@
-<div>
-  <div>
-    <%= link_to "← Back to workouts", workouts_path %>
+<div class="max-w-4xl mx-auto p-4">
+  <div class="mb-6">
+    <%= link_to "← Back to workouts", workouts_path, class: "text-blue-500 hover:text-blue-600" %>
   </div>
 
-  <div>
-    <div>
-      <h1><%= @workout.name %></h1>
-      <div>
-        <%= link_to "Edit", edit_workout_path(@workout) %>
+  <div class="bg-white shadow rounded-lg p-6">
+    <div class="flex justify-between items-start mb-4">
+      <h1 class="text-2xl font-bold"><%= @workout.name %></h1>
+      <div class="flex space-x-2">
+        <%= link_to "Edit", edit_workout_path(@workout), class: "bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded" %>
         <%= button_to "Delete", workout_path(@workout), 
             method: :delete,
+            class: "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded",
             form: { data: { turbo_confirm: "Are you sure you want to delete this workout?" } } %>
       </div>
     </div>
 
     <% if @workout.date %>
-      <p><%= @workout.date.strftime("%B %d, %Y") %></p>
+      <p class="text-gray-500 mb-4"><%= @workout.date.strftime("%B %d, %Y") %></p>
     <% end %>
 
     <% if @workout.description.present? %>
-      <div>
+      <div class="text-gray-600 mb-6">
         <%= @workout.description %>
       </div>
     <% end %>
 
     <% if @workout.workout_exercises.any? %>
-      <div>
-        <h2>Exercises</h2>
-        <% @workout.workout_exercises.each do |workout_exercise| %>
-          <div>
-            <h3><%= workout_exercise.exercise.name %></h3>
-            <ul>
-              <% if workout_exercise.sets %>
-                <li>Sets: <%= workout_exercise.sets %></li>
+      <div class="border-t pt-6 mb-6">
+        <h2 class="text-xl font-semibold mb-4">Exercises</h2>
+        <div class="space-y-4">
+          <% @workout.workout_exercises.each do |workout_exercise| %>
+            <div class="bg-gray-50 rounded p-4">
+              <h3 class="font-semibold"><%= workout_exercise.exercise.name %></h3>
+              <ul class="mt-2 space-y-1 text-gray-600">
+                <% if workout_exercise.sets %>
+                  <li>Sets: <%= workout_exercise.sets %></li>
+                <% end %>
+                <% if workout_exercise.reps %>
+                  <li>Reps: <%= workout_exercise.reps %></li>
+                <% end %>
+                <% if workout_exercise.weight %>
+                  <li>Weight: <%= workout_exercise.weight %></li>
+                <% end %>
+              </ul>
+              <% if workout_exercise.notes.present? %>
+                <p class="mt-2 text-gray-500"><%= workout_exercise.notes %></p>
               <% end %>
-              <% if workout_exercise.reps %>
-                <li>Reps: <%= workout_exercise.reps %></li>
-              <% end %>
-              <% if workout_exercise.weight %>
-                <li>Weight: <%= workout_exercise.weight %></li>
-              <% end %>
-            </ul>
-            <% if workout_exercise.notes.present? %>
-              <p><%= workout_exercise.notes %></p>
-            <% end %>
-          </div>
-        <% end %>
+            </div>
+          <% end %>
+        </div>
       </div>
     <% end %>
 
-    <div>
-      <h2>Comments</h2>
+    <div class="border-t pt-6">
+      <h2 class="text-xl font-semibold mb-4">Comments</h2>
       
-      <% @workout.comments.each do |comment| %>
-        <div>
-          <p><%= comment.content %></p>
-          <p>
-            By <%= comment.user.email_address %> 
-            <%= time_ago_in_words(comment.created_at) %> ago
-            <% if comment.user == current_user %>
-              <%= button_to "Delete", 
-                  workout_comment_path(@workout, comment), 
-                  method: :delete,
-                  form: { data: { turbo_confirm: "Are you sure?" } } %>
-            <% end %>
-          </p>
-        </div>
-      <% end %>
+      <div class="space-y-4 mb-6">
+        <% @workout.comments.each do |comment| %>
+          <div class="bg-gray-50 rounded p-4">
+            <p class="text-gray-800"><%= comment.content %></p>
+            <div class="mt-2 text-sm text-gray-500 flex justify-between items-center">
+              <span>
+                By <%= comment.user.email_address %> 
+                <%= time_ago_in_words(comment.created_at) %> ago
+              </span>
+              <% if comment.user == current_user %>
+                <%= button_to "Delete", 
+                    workout_comment_path(@workout, comment), 
+                    method: :delete,
+                    class: "text-red-500 hover:text-red-600",
+                    form: { data: { turbo_confirm: "Are you sure?" } } %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
 
-      <%= form_with(model: [@workout, Comment.new]) do |form| %>
+      <%= form_with(model: [@workout, Comment.new], class: "space-y-4") do |form| %>
         <div>
-          <%= form.label :content, "Add a comment" %>
-          <%= form.text_area :content, rows: 3 %>
+          <%= form.label :content, "Add a comment", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_area :content, rows: 3, 
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
         </div>
 
-        <%= form.submit "Post comment" %>
+        <%= form.submit "Post comment", 
+            class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" %>
       <% end %>
     </div>
   </div>

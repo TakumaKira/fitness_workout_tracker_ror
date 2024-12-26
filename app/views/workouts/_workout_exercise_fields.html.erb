@@ -1,27 +1,35 @@
-<div class="nested-fields">
+<div class="nested-fields bg-gray-50 p-4 rounded-lg">
   <%= f.select :exercise_id, 
       @available_exercises.map { |e| [e.name, e.id] },
-      { prompt: "Select exercise" } %>
+      { prompt: "Select exercise" },
+      class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
 
-  <div>
-    <%= f.label :sets %>
-    <%= f.number_field :sets, min: 1 %>
+  <div class="grid grid-cols-3 gap-4 mt-4">
+    <div>
+      <%= f.label :sets, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :sets, min: 1,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :reps, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :reps, min: 1,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :weight, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :weight, step: 0.5, min: 0,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
   </div>
 
-  <div>
-    <%= f.label :reps %>
-    <%= f.number_field :reps, min: 1 %>
+  <div class="mt-4">
+    <%= f.label :notes, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_area :notes, rows: 2,
+        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
   </div>
 
-  <div>
-    <%= f.label :weight %>
-    <%= f.number_field :weight, step: 0.5, min: 0 %>
-  </div>
-
-  <div>
-    <%= f.label :notes %>
-    <%= f.text_area :notes, rows: 2 %>
-  </div>
-
-  <%= link_to_remove_association "Remove exercise", f %>
+  <%= link_to_remove_association "Remove exercise", f,
+      class: "inline-flex items-center px-3 py-2 mt-4 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200" %>
 </div> 
