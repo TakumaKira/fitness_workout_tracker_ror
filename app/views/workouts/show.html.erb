@@ -1,0 +1,27 @@
+<div>
+  <div>
+    <%= link_to "← Back to workouts", workouts_path %>
+  </div>
+
+  <div>
+    <div>
+      <h1><%= @workout.name %></h1>
+      <div>
+        <%= link_to "Edit", edit_workout_path(@workout) %>
+        <%= button_to "Delete", workout_path(@workout), 
+            method: :delete,
+            form: { data: { turbo_confirm: "Are you sure you want to delete this workout?" } } %>
+      </div>
+    </div>
+
+    <% if @workout.date %>
+      <p><%= @workout.date.strftime("%B %d, %Y") %></p>
+    <% end %>
+
+    <% if @workout.description.present? %>
+      <div>
+        <%= @workout.description %>
+      </div>
+    <% end %>
+  </div>
+</div> 
