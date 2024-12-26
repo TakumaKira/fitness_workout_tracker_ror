@@ -63,3 +63,5 @@ group :test do
 end
 
 gem "cocoon"
+
+gem "tailwindcss-rails", "~> 3.0"
