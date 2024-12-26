@@ -3,6 +3,7 @@ module Authentication
 
   included do
     before_action :require_authentication
+    before_action :set_current_user
     helper_method :authenticated?
   end
 
@@ -36,6 +37,14 @@ module Authentication
 
     def after_authentication_url
       session.delete(:return_to_after_authenticating) || root_url
+    end
+
+    def set_current_user
+      Current.user = Current.session&.user
+    end
+
+    def current_user
+      Current.user
     end
 
     def start_new_session_for(user)

@@ -1,2 +1,38 @@
-<h1>Workouts#index</h1>
-<p>Find me in app/views/workouts/index.html.erb</p>
+<div>
+  <div>
+    <h1>My Workouts</h1>
+    <%= link_to "New Workout", new_workout_path %>
+  </div>
+
+  <div>
+    <% @workouts.each do |workout| %>
+      <div>
+        <div>
+          <div>
+            <h2>
+              <%= link_to workout.name, workout_path(workout) %>
+            </h2>
+            <% if workout.date %>
+              <p><%= workout.date.strftime("%B %d, %Y") %></p>
+            <% end %>
+          </div>
+          <div>
+            <%= link_to "Edit", edit_workout_path(workout) %>
+            <%= button_to "Delete", workout_path(workout), 
+                method: :delete,
+                form: { data: { turbo_confirm: "Are you sure?" } } %>
+          </div>
+        </div>
+        <% if workout.description.present? %>
+          <p><%= workout.description %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @workouts.empty? %>
+      <div>
+        No workouts yet. <%= link_to "Create your first workout", new_workout_path %>
+      </div>
+    <% end %>
+  </div>
+</div>
