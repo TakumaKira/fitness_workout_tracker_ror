@@ -5,6 +5,7 @@ module Authentication
     before_action :require_authentication
     before_action :set_current_user
     helper_method :authenticated?
+    helper_method :current_user
   end
 
   class_methods do
