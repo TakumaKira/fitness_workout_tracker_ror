@@ -23,5 +23,30 @@
         <%= @workout.description %>
       </div>
     <% end %>
+
+    <% if @workout.workout_exercises.any? %>
+      <div>
+        <h2>Exercises</h2>
+        <% @workout.workout_exercises.each do |workout_exercise| %>
+          <div>
+            <h3><%= workout_exercise.exercise.name %></h3>
+            <ul>
+              <% if workout_exercise.sets %>
+                <li>Sets: <%= workout_exercise.sets %></li>
+              <% end %>
+              <% if workout_exercise.reps %>
+                <li>Reps: <%= workout_exercise.reps %></li>
+              <% end %>
+              <% if workout_exercise.weight %>
+                <li>Weight: <%= workout_exercise.weight %></li>
+              <% end %>
+            </ul>
+            <% if workout_exercise.notes.present? %>
+              <p><%= workout_exercise.notes %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div> 

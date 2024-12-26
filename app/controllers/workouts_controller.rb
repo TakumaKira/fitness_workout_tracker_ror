@@ -12,6 +12,8 @@ class WorkoutsController < ApplicationController
 
   def new
     @workout = current_user.workouts.build
+    3.times { @workout.workout_exercises.build }
+    @available_exercises = current_user.exercises
   end
 
   def create
@@ -20,17 +22,21 @@ class WorkoutsController < ApplicationController
     if @workout.save
       redirect_to @workout, notice: "Workout was successfully created."
     else
+      @available_exercises = current_user.exercises
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
+    @available_exercises = current_user.exercises
+    @workout.workout_exercises.build
   end
 
   def update
     if @workout.update(workout_params)
       redirect_to @workout, notice: "Workout was successfully updated."
     else
+      @available_exercises = current_user.exercises
       render :edit, status: :unprocessable_entity
     end
   end
@@ -47,6 +53,11 @@ class WorkoutsController < ApplicationController
   end
 
   def workout_params
-    params.require(:workout).permit(:name, :description, :date)
+    params.require(:workout).permit(
+      :name,
+      :description,
+      :date,
+      workout_exercises_attributes: [ :id, :exercise_id, :sets, :reps, :weight, :notes, :_destroy ]
+    )
   end
 end

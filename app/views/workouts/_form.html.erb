@@ -26,6 +26,49 @@
   </div>
 
   <div>
+    <h2>Exercises</h2>
+    
+    <%= form.fields_for :workout_exercises do |exercise_fields| %>
+      <div>
+        <%= exercise_fields.select :exercise_id, 
+            @available_exercises.map { |e| [e.name, e.id] },
+            { prompt: "Select exercise" } %>
+
+        <div>
+          <%= exercise_fields.label :sets %>
+          <%= exercise_fields.number_field :sets, min: 1 %>
+        </div>
+
+        <div>
+          <%= exercise_fields.label :reps %>
+          <%= exercise_fields.number_field :reps, min: 1 %>
+        </div>
+
+        <div>
+          <%= exercise_fields.label :weight %>
+          <%= exercise_fields.number_field :weight, step: 0.5, min: 0 %>
+        </div>
+
+        <div>
+          <%= exercise_fields.label :notes %>
+          <%= exercise_fields.text_area :notes, rows: 2 %>
+        </div>
+
+        <div>
+          <%= exercise_fields.check_box :_destroy %>
+          <%= exercise_fields.label :_destroy, "Remove exercise" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div>
+      <%= link_to_add_association "Add exercise", form, :workout_exercises,
+          partial: "workout_exercise_fields",
+          data: { association_insertion_method: "append" } %>
+    </div>
+  </div>
+
+  <div>
     <%= link_to "Cancel", workouts_path %>
     <%= form.submit %>
   </div>

@@ -1,0 +1,29 @@
+<div>
+  <div>
+    <h1>My Exercises</h1>
+    <%= link_to "New Exercise", new_exercise_path %>
+  </div>
+
+  <div>
+    <% @exercises.each do |exercise| %>
+      <div>
+        <div>
+          <h2><%= exercise.name %></h2>
+          <% if exercise.description.present? %>
+            <p><%= exercise.description %></p>
+          <% end %>
+        </div>
+        <div>
+          <%= link_to "Edit", edit_exercise_path(exercise) %>
+          <%= button_to "Delete", exercise_path(exercise),
+              method: :delete,
+              form: { data: { turbo_confirm: "Are you sure?" } } %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @exercises.empty? %>
+      <p>No exercises yet. <%= link_to "Create your first exercise", new_exercise_path %></p>
+    <% end %>
+  </div>
+</div> 
