@@ -1,0 +1,27 @@
+<div class="nested-fields">
+  <%= f.select :exercise_id, 
+      @available_exercises.map { |e| [e.name, e.id] },
+      { prompt: "Select exercise" } %>
+
+  <div>
+    <%= f.label :sets %>
+    <%= f.number_field :sets, min: 1 %>
+  </div>
+
+  <div>
+    <%= f.label :reps %>
+    <%= f.number_field :reps, min: 1 %>
+  </div>
+
+  <div>
+    <%= f.label :weight %>
+    <%= f.number_field :weight, step: 0.5, min: 0 %>
+  </div>
+
+  <div>
+    <%= f.label :notes %>
+    <%= f.text_area :notes, rows: 2 %>
+  </div>
+
+  <%= link_to_remove_association "Remove exercise", f %>
+</div> 

@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_26_032103) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_26_041158) do
+  create_table "exercises", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_exercises_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -28,6 +37,19 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_26_032103) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  create_table "workout_exercises", force: :cascade do |t|
+    t.integer "workout_id", null: false
+    t.integer "exercise_id", null: false
+    t.integer "sets"
+    t.integer "reps"
+    t.decimal "weight"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_workout_exercises_on_exercise_id"
+    t.index ["workout_id"], name: "index_workout_exercises_on_workout_id"
+  end
+
   create_table "workouts", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -38,6 +60,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_26_032103) do
     t.index ["user_id"], name: "index_workouts_on_user_id"
   end
 
+  add_foreign_key "exercises", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "workout_exercises", "exercises"
+  add_foreign_key "workout_exercises", "workouts"
   add_foreign_key "workouts", "users"
 end
