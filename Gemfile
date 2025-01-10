@@ -64,4 +64,4 @@ end
 
 gem "cocoon"
 
-gem "tailwindcss-rails", "~> 3.0"
+gem "tailwindcss-rails", "~> 3.2"
